@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1> Images gallery</h1>
+
+    <h1>{% block title %} Cards {% endblock %}</h1>
+
+
+<form method="get" action="{{url_for('index')}}">
+    <select name="filter" onchange="this.form.submit()"> 
+    <option value=""> </option>
+    <option value="Fury" {% if 'Fury' in selected_filter %}selected{% endif %}>Fury</option>
+    <option value="Calm" {% if 'Calm' in selected_filter %}selected{% endif %}>Calm</option>
+    <option value="Body" {% if 'Body' in selected_filter %}selected{% endif %}>Body</option>
+    <option value="Chaos" {% if 'Chaos' in selected_filter %}selected{% endif %}>Chaos</option>
+    <option value="Order" {% if 'Order' in selected_filter %}selected{% endif %}>Order</option>
+    <option value="Mind" {% if 'Mind' in selected_filter %}selected{% endif %}>Mind</option>
+</select>   
+</form> 
+
+
+
+<h2>Legends</h2>
+<div class="legend-grid">
+    {% for card in cards %}
+    {% if 'Legend' == card[4] and (not selected_filter or  selected_filter in card[5]) %}
+    <div class="card-legend">
+        <img src="{{ url_for('static', filename='images/' ~card[1]~'.png')}}" alt="{{card[1]}}" width="400" />
+    </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<h2>Deck cards</h2>
+<div class="cards-grid">
+    {% for card in cards %}
+    {% if not selected_filter or selected_filter in card[5] and (card[4] != 'Legend')%}
+    <div class="card">
+        <h3>#{{card[0]}} secondArray {{card[1]}} thirdarray{{card[2]}}</h3>
+        <img src="{{ url_for('static', filename='images/' ~card[1]~'.png')}}" alt="{{card[1]}}" width="400" />
+        
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+        
+{% endblock %}
+
+
+    
